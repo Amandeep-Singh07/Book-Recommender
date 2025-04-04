@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
+app.use("/api");
 
 // Mistral AI API configuration
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
@@ -48,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  res.sendFile("id.html", { root: "./" });
+  res.sendFile("index.html", { root: "./" });
 });
 
 app.post("/get-response", async (req, res) => {
