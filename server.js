@@ -9,7 +9,6 @@ const app = express();
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
-app.use("/api");
 
 // Mistral AI API configuration
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
