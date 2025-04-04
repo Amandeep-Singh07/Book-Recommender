@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Book Recommender</h1>
+            <p>Get personalized book recommendations powered by AI</p>
+        </header>
+        
+        <main>
+            <div class="preferences-section">
+                <h2>Tell us what you like</h2>
+                
+                <div class="input-group">
+                    <label for="favorite-books">Your favorite books (comma separated):</label>
+                    <input type="text" id="favorite-books" placeholder="e.g., Harry Potter, The Great Gatsby">
+                </div>
+                
+                <div class="input-group">
+                    <label for="favorite-genres">Preferred genres (select multiple):</label>
+                    <select id="favorite-genres" multiple>
+                        <option value="fiction">Fiction</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="sci-fi">Science Fiction</option>
+                        <option value="mystery">Mystery</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="romance">Romance</option>
+                        <option value="non-fiction">Non-Fiction</option>
+                        <option value="biography">Biography</option>
+                        <option value="history">History</option>
+                        <option value="self-help">Self-Help</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="reading-level">Reading level:</label>
+                    <select id="reading-level">
+                        <option value="any">Any</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="challenging">Challenging</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="additional-preferences">Additional preferences (optional):</label>
+                    <textarea id="additional-preferences" placeholder="E.g., I like books with strong female characters, books about space travel, etc."></textarea>
+                </div>
+                
+                <button id="recommend-button" onclick="getRecommendations()">Get Recommendations</button>
+            </div>
+            
+            <div class="results-section">
+                <h2>Your Recommendations</h2>
+                <div id="loading" class="hidden">Finding the perfect books for you...</div>
+                <div id="recommendations"></div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Powered by NVIDIA Nemotron AI</p>
+        </footer>
+    </div>
+</body>
+</html>
+
+
+
