@@ -1,229 +1,243 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 header {
-    text-align: center;
-    margin-bottom: 40px;
-    padding: 20px 0;
-    border-bottom: 1px solid #ddd;
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 
 header p {
-    font-size: 1.1rem;
-    color: #7f8c8d;
+  font-size: 1.1rem;
+  color: #7f8c8d;
 }
 
 main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
 @media (max-width: 768px) {
-    main {
-        grid-template-columns: 1fr;
-    }
+  main {
+    grid-template-columns: 1fr;
+  }
 }
 
-.preferences-section, .results-section {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.preferences-section,
+.results-section {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .input-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 select[multiple] {
-    height: 150px;
+  height: 150px;
 }
 
 textarea {
-    height: 100px;
-    resize: vertical;
+  height: 100px;
+  resize: vertical;
 }
 
 button {
-    background-color: #76b900;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.3s;
-    display: block;
-    width: 100%;
-    margin-top: 20px;
+  background-color: #76b900;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
 }
 
 button:hover {
-    background-color: #66a100;
+  background-color: #66a100;
 }
 
 .book-recommendation {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.book-recommendation:last-child {
-    border-bottom: none;
-}
-
-.book-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 5px;
-}
-
-.book-author {
-    font-style: italic;
-    margin-bottom: 10px;
-    color: #7f8c8d;
-}
-
-.book-description {
-    margin-bottom: 10px;
-}
-
-.book-genre {
-    display: inline-block;
-    background-color: #f0f0f0;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 0.8rem;
-}
-
-.hidden {
-    display: none;
-}
-
-#loading {
-    text-align: center;
-    padding: 20px;
-    font-style: italic;
-    color: #7f8c8d;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #ddd;
-    color: #7f8c8d;
-}
-
-/* updated for the answer part */
-
-/* Add these styles to your existing CSS file */
-
-.book-recommendation {
-    margin-bottom: 30px;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .book-recommendation:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .book-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    border-bottom: 2px solid #76b900;
-    padding-bottom: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #76b900;
+  padding-bottom: 8px;
 }
 
 .book-author {
-    font-style: italic;
-    margin-bottom: 15px;
-    color: #7f8c8d;
-    font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.book-description {
+  margin-bottom: 10px;
 }
 
 .book-description p {
-    margin-bottom: 10px;
-    line-height: 1.6;
+  margin-bottom: 10px;
+  line-height: 1.6;
 }
 
 .book-description p:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #ddd;
 }
 
-/* Add a small badge for "Why you might enjoy it" section */
-.book-description p:last-child {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px dashed #ddd;
+.book-genre {
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
 }
 
-/* Make the loading indicator more visible */
+.hidden {
+  display: none;
+}
+
 #loading {
-    text-align: center;
-    padding: 30px;
-    font-style: italic;
-    color: #7f8c8d;
-    font-size: 1.1rem;
-    animation: pulse 1.5s infinite;
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Footer styles */
+.site-footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 30px 0;
+  margin-top: 60px;
+  border-radius: 8px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.copyright {
+  font-size: 0.9rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+}
+
+.social-links a {
+  color: #ecf0f1;
+  font-size: 1.5rem;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.social-links a:hover {
+  color: #76b900;
+  transform: translateY(-3px);
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  max-width: 500px;
+  color: #bdc3c7;
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    padding: 0 20px;
+  }
 }
