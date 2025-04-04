@@ -40,8 +40,6 @@
 // const PORT = process.env.PORT || 5000;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-
-
 import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
@@ -50,6 +48,7 @@ import dotenv from "dotenv";
 dotenv.config(); // Load API key from .env file
 
 const app = express();
+app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public")); // Serve static files from 'public' directory
@@ -58,6 +57,10 @@ app.use(express.static("public")); // Serve static files from 'public' directory
 const openai = new OpenAI({
   apiKey: process.env.NVIDIA_API_KEY, // Store API key in .env file
   baseURL: "https://integrate.api.nvidia.com/v1",
+});
+
+app.get("/", async (req, res) => {
+  res.sendFile("id.html", { root: "./" });
 });
 
 app.post("/get-response", async (req, res) => {
