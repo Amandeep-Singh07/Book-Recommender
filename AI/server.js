@@ -16,6 +16,36 @@ const MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions";
 
 // Debug the API key (remove in production)
 console.log("API Key available:", !!MISTRAL_API_KEY);
+app.use((req, res, next) => {
+  const start = Date.now();
+
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  if (Object.keys(req.body).length > 0) {
+    console.log("Request Body:", req.body);
+  }
+
+  const originalJson = res.json;
+  res.json = function (body) {
+    try {
+      const responseTime = Date.now() - start;
+      console.log(
+        `[${new Date().toISOString()}] Response Status: ${
+          res.statusCode
+        } - ${responseTime}ms`
+      );
+      if (body instanceof Error) {
+        console.log("Response Error:", body.message);
+      } else {
+        console.log("Response Body:", body);
+      }
+      return originalJson.call(this, body);
+    } catch (error) {
+      console.error("Logging middleware error:", error);
+      return originalJson.call(this, body);
+    }
+  };
+  next();
+});
 
 app.get("/", async (req, res) => {
   res.sendFile("id.html", { root: "./" });
