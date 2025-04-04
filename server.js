@@ -14,8 +14,8 @@ app.use(express.json());
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
 const MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions";
 
-// Debug the API key (remove in production)
-console.log("API Key available:", !!MISTRAL_API_KEY);
+// Make sure API key is available (remove in production)
+console.log("Mistral API Key available:", !!MISTRAL_API_KEY);
 app.use((req, res, next) => {
   const start = Date.now();
 
@@ -95,7 +95,7 @@ app.post("/get-response", async (req, res) => {
   }
 });
 
-// Add a route for book data if you want to include a database later
+// Add a route for book data that could be integrated with a database later
 app.get("/api/popular-books", (req, res) => {
   // This could be connected to a database in the future
   const popularBooks = [
@@ -120,5 +120,5 @@ app.get("/api/popular-books", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
-  console.log(`Book Recommender server running on port ${PORT}`)
+  console.log(`Book Recommender AI server running on port ${PORT}`)
 );

@@ -3,6 +3,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "openai": "^4.87.4"
-  }
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module"
 }
