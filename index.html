@@ -4,75 +4,94 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Recommender</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="http://localhost:5001/styles.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <script defer src="/script.js"></script>
+    <script defer src="http://localhost:5001/script.js"></script>
   </head>
   <body>
     <div class="container">
       <header>
-        <h1>Book Recommender</h1>
-        <p>Get personalized book recommendations powered by AI</p>
+        <div class="header-content">
+          <h1>Book Recommender</h1>
+          <p>Get personalized book recommendations powered by AI</p>
+          <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+          </button>
+        </div>
       </header>
 
       <main>
-        <div class="preferences-section">
-          <h2>Tell us what you like</h2>
-          <div class="input-group">
-            <label for="favorite-books"
-              >Your favorite books (comma separated):</label
-            >
-            <input
-              type="text"
-              id="favorite-books"
-              placeholder="e.g., Harry Potter, The Great Gatsby"
-            />
+        <div class="left-column">
+          <div class="preferences-section">
+            <h2>Tell us what you like</h2>
+            <div class="input-group">
+              <label for="favorite-books"
+                >Your favorite books (comma separated):</label
+              >
+              <input
+                type="text"
+                id="favorite-books"
+                placeholder="e.g., Harry Potter, The Great Gatsby"
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="favorite-genres"
+                >Preferred genres (select multiple - hold Ctrl/Cmd while
+                clicking):</label
+              >
+              <select id="favorite-genres" multiple size="6">
+                <option value="fiction">Fiction</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="sci-fi">Science Fiction</option>
+                <option value="mystery">Mystery</option>
+                <option value="thriller">Thriller</option>
+                <option value="romance">Romance</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="biography">Biography</option>
+                <option value="history">History</option>
+                <option value="self-help">Self-Help</option>
+              </select>
+              <div class="helper-text">
+                Hold Ctrl (PC) or Cmd (Mac) to select multiple genres
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="reading-level">Reading level:</label>
+              <select id="reading-level">
+                <option value="any">Any</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="challenging">Challenging</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="additional-preferences"
+                >Additional preferences (optional):</label
+              >
+              <textarea
+                id="additional-preferences"
+                placeholder="E.g., I like books with strong female characters, books about space travel, etc."
+              ></textarea>
+            </div>
+
+            <button id="recommend-button" onclick="getRecommendations()">
+              Get Recommendations
+            </button>
           </div>
 
-          <div class="input-group">
-            <label for="favorite-genres"
-              >Preferred genres (select multiple):</label
-            >
-            <select id="favorite-genres" multiple>
-              <option value="fiction">Fiction</option>
-              <option value="fantasy">Fantasy</option>
-              <option value="sci-fi">Science Fiction</option>
-              <option value="mystery">Mystery</option>
-              <option value="thriller">Thriller</option>
-              <option value="romance">Romance</option>
-              <option value="non-fiction">Non-Fiction</option>
-              <option value="biography">Biography</option>
-              <option value="history">History</option>
-              <option value="self-help">Self-Help</option>
-            </select>
+          <div class="recent-queries-section">
+            <h2>Recent Queries</h2>
+            <div id="recent-queries-list">
+              <p class="empty-message">Your recent searches will appear here</p>
+            </div>
           </div>
-
-          <div class="input-group">
-            <label for="reading-level">Reading level:</label>
-            <select id="reading-level">
-              <option value="any">Any</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="challenging">Challenging</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="additional-preferences"
-              >Additional preferences (optional):</label
-            >
-            <textarea
-              id="additional-preferences"
-              placeholder="E.g., I like books with strong female characters, books about space travel, etc."
-            ></textarea>
-          </div>
-
-          <button id="recommend-button" onclick="getRecommendations()">
-            Get Recommendations
-          </button>
         </div>
 
         <div class="results-section">
@@ -87,7 +106,7 @@
       <footer class="site-footer">
         <div class="footer-content">
           <div class="copyright">
-            <p>&copy; 2023 Book Recommender. All rights reserved.</p>
+            <p>&copy; 2025 Book Recommender. All rights reserved.</p>
           </div>
           <div class="social-links">
             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>

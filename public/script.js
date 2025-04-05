@@ -1,12 +1,68 @@
+// Initialize theme from localStorage or default to light
+const currentTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", currentTheme);
+
+// Initialize recent queries array from localStorage or empty array
+let recentQueries = JSON.parse(localStorage.getItem("recentQueries")) || [];
+
+// Display recent queries when page loads
+document.addEventListener("DOMContentLoaded", function () {
+  displayRecentQueries();
+
+  // Set up theme toggle button
+  const themeToggleBtn = document.getElementById("theme-toggle-btn");
+  updateThemeToggleButton(currentTheme);
+
+  themeToggleBtn.addEventListener("click", function () {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+
+    updateThemeToggleButton(newTheme);
+  });
+});
+
+// Update theme toggle button text and icon
+function updateThemeToggleButton(theme) {
+  const button = document.getElementById("theme-toggle-btn");
+  const iconElement = button.querySelector("i");
+  const textElement = button.querySelector("span");
+
+  if (theme === "dark") {
+    iconElement.className = "fas fa-sun";
+    textElement.textContent = "Light Mode";
+  } else {
+    iconElement.className = "fas fa-moon";
+    textElement.textContent = "Dark Mode";
+  }
+}
+
 async function getRecommendations() {
   const favoriteBooks = document.getElementById("favorite-books").value;
-  const genres = Array.from(
-    document.getElementById("favorite-genres").selectedOptions
-  ).map((option) => option.value);
+
+  // Get selected genres - ensure we're getting all selected options
+  const genresSelect = document.getElementById("favorite-genres");
+  const genres = Array.from(genresSelect.selectedOptions).map(
+    (option) => option.value
+  );
+
   const readingLevel = document.getElementById("reading-level").value;
   const additionalPreferences = document.getElementById(
     "additional-preferences"
   ).value;
+
+  // Save query to recent queries
+  const queryData = {
+    favoriteBooks,
+    genres: genres.join(", "),
+    readingLevel,
+    additionalPreferences,
+    timestamp: new Date().toISOString(),
+  };
+
+  saveRecentQuery(queryData);
 
   const recommendationsDiv = document.getElementById("recommendations");
   const loadingDiv = document.getElementById("loading");
@@ -31,7 +87,7 @@ async function getRecommendations() {
     Number each recommendation clearly (e.g., "Recommendation 1:").`;
 
   try {
-    const response = await fetch("/get-response", {
+    const response = await fetch("http://localhost:5001/get-response", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -205,4 +261,98 @@ function displayRecommendations(books) {
 
     recommendationsDiv.appendChild(bookElement);
   });
+}
+
+// Save a query to recent queries list
+function saveRecentQuery(queryData) {
+  // Add to beginning of array
+  recentQueries.unshift(queryData);
+
+  // Keep only the most recent 5 queries
+  if (recentQueries.length > 5) {
+    recentQueries = recentQueries.slice(0, 5);
+  }
+
+  // Save to localStorage
+  localStorage.setItem("recentQueries", JSON.stringify(recentQueries));
+
+  // Update the display
+  displayRecentQueries();
+}
+
+// Display the recent queries in the UI
+function displayRecentQueries() {
+  const recentQueriesList = document.getElementById("recent-queries-list");
+
+  if (recentQueries.length === 0) {
+    recentQueriesList.innerHTML =
+      '<p class="empty-message">Your recent searches will appear here</p>';
+    return;
+  }
+
+  recentQueriesList.innerHTML = "";
+
+  recentQueries.forEach((query, index) => {
+    const queryItem = document.createElement("div");
+    queryItem.className = "query-item";
+
+    // Format the date nicely
+    const date = new Date(query.timestamp);
+    const formattedDate = `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+
+    // Create summary of the query
+    let querySummary = "";
+    if (query.favoriteBooks) {
+      querySummary += `Books: ${query.favoriteBooks.substring(0, 30)}${
+        query.favoriteBooks.length > 30 ? "..." : ""
+      } | `;
+    }
+    if (query.genres) {
+      querySummary += `Genres: ${query.genres} | `;
+    }
+    querySummary += `Level: ${query.readingLevel}`;
+
+    queryItem.innerHTML = `
+      <div><strong>${querySummary}</strong></div>
+      <div><small>${formattedDate}</small></div>
+    `;
+
+    // Add click event to reuse this query
+    queryItem.addEventListener("click", () => reuseQuery(query));
+
+    recentQueriesList.appendChild(queryItem);
+  });
+}
+
+// Reuse a previous query
+function reuseQuery(query) {
+  document.getElementById("favorite-books").value = query.favoriteBooks || "";
+
+  // Set selected genres
+  const genresSelect = document.getElementById("favorite-genres");
+  const genresArray = query.genres.split(", ").filter((g) => g);
+
+  // First deselect all options
+  Array.from(genresSelect.options).forEach((option) => {
+    option.selected = false;
+  });
+
+  // Then select the ones from the query
+  Array.from(genresSelect.options).forEach((option) => {
+    if (genresArray.includes(option.value)) {
+      option.selected = true;
+    }
+  });
+
+  // Set reading level
+  document.getElementById("reading-level").value = query.readingLevel || "any";
+
+  // Set additional preferences
+  document.getElementById("additional-preferences").value =
+    query.additionalPreferences || "";
+
+  // Scroll to the top of preferences section
+  document
+    .querySelector(".preferences-section")
+    .scrollIntoView({ behavior: "smooth" });
 }
