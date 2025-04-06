@@ -51,6 +51,10 @@ app.get("/", async (req, res) => {
   res.sendFile("index.html", { root: "./" });
 });
 
+app.get("/index.html", async (req, res) => {
+  res.sendFile("index.html", { root: "./" });
+});
+
 app.post("/get-response", async (req, res) => {
   try {
     const { prompt } = req.body;

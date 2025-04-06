@@ -87,7 +87,7 @@ async function getRecommendations() {
     Number each recommendation clearly (e.g., "Recommendation 1:").`;
 
   try {
-    const response = await fetch("http://localhost:5001/get-response", {
+    const response = await fetch("/get-response", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
