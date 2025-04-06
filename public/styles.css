@@ -23,7 +23,7 @@
   --primary-color: #76b900;
   --primary-hover: #8dd409;
   --border-color: #3a3a3a;
-  --footer-bg: #1a1a1a;
+  --footer-bg: #252525;
   --footer-text: #f0f0f0;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   --item-hover: #3a3a3a;
@@ -310,6 +310,28 @@ button:hover {
   transition: background-color 0.3s, color 0.3s;
 }
 
+[data-theme="dark"] .site-footer {
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 0 15px rgba(118, 185, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(118, 185, 0, 0.6),
+    transparent
+  );
+}
+
 .footer-content {
   display: flex;
   flex-direction: column;
@@ -320,6 +342,10 @@ button:hover {
 
 .copyright {
   font-size: 0.9rem;
+}
+
+[data-theme="dark"] .copyright {
+  color: #c0c0c0;
 }
 
 .social-links {
@@ -338,10 +364,24 @@ button:hover {
   transform: translateY(-3px);
 }
 
+[data-theme="dark"] .social-links a {
+  color: #76b900;
+}
+
+[data-theme="dark"] .social-links a:hover {
+  color: white;
+  transform: translateY(-3px);
+}
+
 .disclaimer {
   font-size: 0.8rem;
   max-width: 500px;
   color: #bdc3c7;
+}
+
+[data-theme="dark"] .disclaimer {
+  color: #a0a0a0;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 @media (min-width: 768px) {
