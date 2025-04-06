@@ -420,3 +420,265 @@ button:hover {
   margin-top: 5px;
   font-style: italic;
 }
+
+/* Auth pages styles */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.auth-container {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  max-width: 500px;
+  width: 100%;
+}
+
+.auth-form {
+  margin-top: 20px;
+}
+
+.auth-button {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.auth-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.auth-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.auth-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 15px 0;
+  border-left: 3px solid #c62828;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 4px;
+  margin: 15px 0;
+  border-left: 3px solid;
+}
+
+.message.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.message.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #c62828;
+}
+
+/* Profile page styles */
+.profile-page {
+  padding: 20px 0;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-link:hover {
+  background-color: rgba(118, 185, 0, 0.1);
+}
+
+.logout-button {
+  background-color: transparent;
+  color: #e53935;
+  border: 1px solid #e53935;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: inline-block;
+  width: auto;
+  margin-top: 0;
+}
+
+.logout-button:hover {
+  background-color: #e53935;
+  color: white;
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-section {
+  background-color: var(--card-bg);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+}
+
+.profile-section h3 {
+  color: var(--header-color);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+
+.profile-data {
+  margin-top: 20px;
+}
+
+.profile-data-item {
+  margin-bottom: 15px;
+}
+
+.profile-data-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--secondary-text);
+}
+
+.profile-data-value {
+  font-size: 1.1rem;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 20px;
+  color: var(--secondary-text);
+}
+
+.reading-list-item {
+  padding: 15px;
+  background-color: var(--item-bg);
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.reading-list-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  color: var(--header-color);
+}
+
+.reading-list-author {
+  color: var(--secondary-text);
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+.reading-list-meta {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reading-list-completed {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.header-auth {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.auth-link {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  border: 1px solid var(--primary-color);
+}
+
+.auth-link:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.auth-link.register {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.auth-link.register:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+/* Profile link */
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  border: 1px solid var(--primary-color);
+}
+
+.profile-link:hover {
+  background-color: rgba(118, 185, 0, 0.1);
+}

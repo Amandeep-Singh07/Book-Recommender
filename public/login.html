@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Book Recommender</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script defer src="/auth.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1>Book Recommender</h1>
+          <p>Get personalized book recommendations powered by AI</p>
+          <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="auth-page">
+        <div class="auth-container">
+          <h2>Login</h2>
+          <form id="login-form" class="auth-form">
+            <div class="input-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div id="login-error" class="error-message hidden"></div>
+
+            <button type="submit" class="auth-button">Login</button>
+          </form>
+
+          <div class="auth-links">
+            <p>Don't have an account? <a href="/register.html">Register</a></p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-content">
+          <div class="copyright">
+            <p>&copy; 2023 Book Recommender. All rights reserved.</p>
+          </div>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+          <div class="disclaimer">
+            <p>
+              Recommendations are AI-generated and may not reflect actual book
+              quality.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

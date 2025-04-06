@@ -1,14 +1,33 @@
+import "dotenv/config"; // This loads environment variables right away
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import fetch from "node-fetch"; // For making HTTP requests to Mistral API
+import cookieParser from "cookie-parser";
+import { connectToMongoDB } from "./auth.js";
+import authRoutes from "./authRoutes.js";
+import { optionalAuth } from "./authMiddleware.js";
 
-dotenv.config(); // Load API key from .env file
-
+// Create Express app
 const app = express();
 app.use(express.static("public"));
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
+
+// Connect to MongoDB
+let db, usersCollection;
+connectToMongoDB()
+  .then(({ db: database, usersCollection: collection }) => {
+    console.log("MongoDB connected successfully");
+    db = database;
+    usersCollection = collection;
+  })
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Mistral AI API configuration
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
@@ -46,6 +65,12 @@ app.use((req, res, next) => {
   };
   next();
 });
+
+// Authentication routes
+app.use("/api/auth", authRoutes);
+
+// Optional authentication middleware for routes that don't require authentication
+app.use(optionalAuth);
 
 app.get("/", async (req, res) => {
   res.sendFile("index.html", { root: "./" });
@@ -120,6 +145,74 @@ app.get("/api/popular-books", (req, res) => {
   ];
 
   res.json(popularBooks);
+});
+
+// Protected route example that requires authentication
+app.get("/api/user/reading-list", optionalAuth, (req, res) => {
+  // If user is not authenticated, return public reading list
+  if (!req.isAuthenticated) {
+    return res.status(200).json({
+      success: true,
+      message: "Public reading list",
+      readingList: [
+        {
+          title: "Sign in to see your personalized reading list",
+          isPublic: true,
+        },
+      ],
+    });
+  }
+
+  // If user is authenticated, return their reading list
+  // In a real app, you would fetch this from the database
+  const readingList = [
+    {
+      title: "The Hobbit",
+      author: "J.R.R. Tolkien",
+      addedAt: new Date(),
+      completed: false,
+    },
+    {
+      title: "Dune",
+      author: "Frank Herbert",
+      addedAt: new Date(Date.now() - 86400000), // yesterday
+      completed: true,
+    },
+  ];
+
+  return res.status(200).json({
+    success: true,
+    message: "User reading list",
+    readingList,
+    userName: req.user.name || req.user.email,
+  });
+});
+
+// Add a test route to check MongoDB connection
+app.get("/api/test-mongodb", async (req, res) => {
+  try {
+    if (db && usersCollection) {
+      // Test the connection by making a simple query
+      const count = await usersCollection.countDocuments();
+      return res.json({
+        success: true,
+        message: "MongoDB connection is working",
+        usersCount: count,
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: "MongoDB connection is not established",
+      });
+    }
+  } catch (error) {
+    console.error("MongoDB test error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "MongoDB test failed",
+      error: error.message,
+    });
+  }
 });
 
 const PORT = process.env.PORT || 5001;

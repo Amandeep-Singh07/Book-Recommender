@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile - Book Recommender</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script defer src="/auth.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1>Book Recommender</h1>
+          <p>Get personalized book recommendations powered by AI</p>
+          <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="profile-page">
+        <div class="profile-header">
+          <h2>My Profile</h2>
+          <div class="profile-actions">
+            <a href="/" class="nav-link">Home</a>
+            <button id="logout-button" class="logout-button">Logout</button>
+          </div>
+        </div>
+
+        <div class="profile-content">
+          <div class="profile-section">
+            <h3>Account Information</h3>
+            <div id="profile-data" class="profile-data">
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Loading profile...
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h3>Update Profile</h3>
+            <form id="update-profile-form" class="auth-form">
+              <div class="input-group">
+                <label for="name">Your Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  disabled
+                />
+                <div class="helper-text">Email cannot be changed</div>
+              </div>
+
+              <div id="update-profile-message" class="message hidden"></div>
+
+              <button type="submit" class="auth-button">Update Profile</button>
+            </form>
+          </div>
+
+          <div class="profile-section">
+            <h3>Change Password</h3>
+            <form id="change-password-form" class="auth-form">
+              <div class="input-group">
+                <label for="current-password">Current Password</label>
+                <input
+                  type="password"
+                  id="current-password"
+                  name="currentPassword"
+                  placeholder="Enter your current password"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="new-password">New Password</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  name="newPassword"
+                  placeholder="Enter your new password"
+                  required
+                  minlength="8"
+                />
+                <div class="helper-text">
+                  Password must be at least 8 characters long
+                </div>
+              </div>
+
+              <div id="change-password-message" class="message hidden"></div>
+
+              <button type="submit" class="auth-button">Change Password</button>
+            </form>
+          </div>
+
+          <div class="profile-section">
+            <h3>My Reading List</h3>
+            <div id="reading-list" class="reading-list">
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Loading reading list...
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-content">
+          <div class="copyright">
+            <p>&copy; 2023 Book Recommender. All rights reserved.</p>
+          </div>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+          <div class="disclaimer">
+            <p>
+              Recommendations are AI-generated and may not reflect actual book
+              quality.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
