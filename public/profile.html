@@ -12,11 +12,16 @@
     <script defer src="/auth.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container" data-theme="light">
       <header>
         <div class="header-content">
           <h1>Book Recommender</h1>
-          <p>Get personalized book recommendations powered by AI</p>
+          <div class="header-auth">
+            <a href="/" class="nav-link"> <i class="fas fa-home"></i> Home </a>
+            <button id="logout-button" class="logout-button">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
           <button id="theme-toggle-btn" aria-label="Toggle dark mode">
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
@@ -24,99 +29,210 @@
         </div>
       </header>
 
-      <main class="profile-page">
-        <div class="profile-header">
-          <h2>My Profile</h2>
-          <div class="profile-actions">
-            <a href="/" class="nav-link">Home</a>
-            <button id="logout-button" class="logout-button">Logout</button>
+      <main class="profile-page modern-profile">
+        <div class="profile-hero">
+          <div class="profile-hero-content">
+            <div class="profile-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <h2>My Profile</h2>
+            <p>Manage your account and preferences</p>
           </div>
         </div>
 
+        <div class="profile-tabs">
+          <button class="profile-tab active" data-tab="account">
+            <i class="fas fa-user"></i> Account
+          </button>
+          <button class="profile-tab" data-tab="security">
+            <i class="fas fa-lock"></i> Security
+          </button>
+          <button class="profile-tab" data-tab="reading">
+            <i class="fas fa-book"></i> Reading List
+          </button>
+        </div>
+
         <div class="profile-content">
-          <div class="profile-section">
-            <h3>Account Information</h3>
-            <div id="profile-data" class="profile-data">
-              <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i> Loading profile...
-              </div>
-            </div>
-          </div>
-
-          <div class="profile-section">
-            <h3>Update Profile</h3>
-            <form id="update-profile-form" class="auth-form">
-              <div class="input-group">
-                <label for="name">Your Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Enter your name"
-                />
-              </div>
-
-              <div class="input-group">
-                <label for="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  disabled
-                />
-                <div class="helper-text">Email cannot be changed</div>
-              </div>
-
-              <div id="update-profile-message" class="message hidden"></div>
-
-              <button type="submit" class="auth-button">Update Profile</button>
-            </form>
-          </div>
-
-          <div class="profile-section">
-            <h3>Change Password</h3>
-            <form id="change-password-form" class="auth-form">
-              <div class="input-group">
-                <label for="current-password">Current Password</label>
-                <input
-                  type="password"
-                  id="current-password"
-                  name="currentPassword"
-                  placeholder="Enter your current password"
-                  required
-                />
-              </div>
-
-              <div class="input-group">
-                <label for="new-password">New Password</label>
-                <input
-                  type="password"
-                  id="new-password"
-                  name="newPassword"
-                  placeholder="Enter your new password"
-                  required
-                  minlength="8"
-                />
-                <div class="helper-text">
-                  Password must be at least 8 characters long
+          <!-- Account Tab Content -->
+          <div class="profile-tab-content active" id="account-tab">
+            <div class="profile-section account-info">
+              <h3><i class="fas fa-info-circle"></i> Account Information</h3>
+              <div id="profile-data" class="profile-data">
+                <div class="loading-spinner">
+                  <i class="fas fa-spinner fa-spin"></i> Loading profile...
                 </div>
               </div>
+            </div>
 
-              <div id="change-password-message" class="message hidden"></div>
+            <div class="profile-section">
+              <h3><i class="fas fa-user-edit"></i> Update Profile</h3>
+              <form id="update-profile-form" class="auth-form">
+                <div class="input-group">
+                  <label for="name">
+                    <i class="fas fa-user input-icon"></i>
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                  />
+                </div>
 
-              <button type="submit" class="auth-button">Change Password</button>
-            </form>
+                <div class="input-group">
+                  <label for="email">
+                    <i class="fas fa-envelope input-icon"></i>
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    disabled
+                  />
+                  <div class="helper-text">
+                    <i class="fas fa-info-circle"></i> Email cannot be changed
+                  </div>
+                </div>
+
+                <div id="update-profile-message" class="message hidden"></div>
+
+                <button type="submit" class="auth-button">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+              </form>
+            </div>
           </div>
 
-          <div class="profile-section">
-            <h3>My Reading List</h3>
-            <div id="reading-list" class="reading-list">
-              <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i> Loading reading list...
+          <!-- Security Tab Content -->
+          <div class="profile-tab-content" id="security-tab">
+            <div class="profile-section">
+              <h3><i class="fas fa-key"></i> Change Password</h3>
+              <form id="change-password-form" class="auth-form">
+                <div class="input-group">
+                  <label for="current-password">
+                    <i class="fas fa-unlock-alt input-icon"></i>
+                    Current Password
+                  </label>
+                  <div class="password-input-container">
+                    <input
+                      type="password"
+                      id="current-password"
+                      name="currentPassword"
+                      placeholder="Enter your current password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      data-target="current-password"
+                      tabindex="-1"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="new-password">
+                    <i class="fas fa-lock input-icon"></i>
+                    New Password
+                  </label>
+                  <div class="password-input-container">
+                    <input
+                      type="password"
+                      id="new-password"
+                      name="newPassword"
+                      placeholder="Enter your new password"
+                      required
+                      minlength="8"
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      data-target="new-password"
+                      tabindex="-1"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <div class="helper-text">
+                    <i class="fas fa-info-circle"></i> Password must be at least
+                    8 characters long
+                  </div>
+                </div>
+
+                <div id="change-password-message" class="message hidden"></div>
+
+                <button type="submit" class="auth-button">
+                  <i class="fas fa-key"></i> Update Password
+                </button>
+              </form>
+            </div>
+
+            <div class="profile-section security-options">
+              <h3><i class="fas fa-shield-alt"></i> Security Options</h3>
+              <div class="security-option">
+                <div class="security-option-info">
+                  <h4>Two-Factor Authentication</h4>
+                  <p>Add an extra layer of security to your account</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="two-factor" />
+                  <label for="two-factor"></label>
+                </div>
+              </div>
+              <div class="security-option">
+                <div class="security-option-info">
+                  <h4>Email Notifications</h4>
+                  <p>Receive security alerts via email</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="email-notifications" checked />
+                  <label for="email-notifications"></label>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Reading List Tab Content -->
+          <div class="profile-tab-content" id="reading-tab">
+            <div class="profile-section">
+              <h3><i class="fas fa-book-reader"></i> My Reading List</h3>
+              <div class="reading-list-controls">
+                <div class="reading-list-filter">
+                  <label for="reading-filter">Filter:</label>
+                  <select id="reading-filter">
+                    <option value="all">All Books</option>
+                    <option value="completed">Completed</option>
+                    <option value="reading">Currently Reading</option>
+                    <option value="wishlist">Wishlist</option>
+                  </select>
+                </div>
+                <button class="add-book-btn">
+                  <i class="fas fa-plus"></i> Add Book
+                </button>
+              </div>
+              <div id="reading-list" class="reading-list">
+                <div class="loading-spinner">
+                  <i class="fas fa-spinner fa-spin"></i> Loading reading list...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-section recommendations-cta">
+          <h3>Ready for Book Recommendations?</h3>
+          <p>
+            Discover your next favorite book with our AI-powered recommendation
+            engine.
+          </p>
+          <a href="/" class="recommendations-button">
+            <i class="fas fa-book"></i> Get Book Recommendations
+          </a>
         </div>
       </main>
 
@@ -143,5 +259,142 @@
         </div>
       </footer>
     </div>
+
+    <script>
+      // Tab functionality
+      document.querySelectorAll(".profile-tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          // Remove active class from all tabs
+          document
+            .querySelectorAll(".profile-tab")
+            .forEach((t) => t.classList.remove("active"));
+          // Add active class to clicked tab
+          this.classList.add("active");
+
+          // Hide all tab content
+          document
+            .querySelectorAll(".profile-tab-content")
+            .forEach((content) => {
+              content.classList.remove("active");
+            });
+
+          // Show content for the selected tab
+          const tabId = this.getAttribute("data-tab");
+          document.getElementById(tabId + "-tab").classList.add("active");
+        });
+      });
+
+      // Password visibility toggle
+      document.querySelectorAll(".toggle-password").forEach((toggle) => {
+        toggle.addEventListener("click", function () {
+          const targetId = this.getAttribute("data-target");
+          const passwordField = document.getElementById(targetId);
+          const type =
+            passwordField.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordField.setAttribute("type", type);
+
+          // Change icon based on password visibility
+          if (type === "text") {
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            this.setAttribute("title", "Hide password");
+          } else {
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+            this.setAttribute("title", "Show password");
+          }
+        });
+      });
+
+      // Toggle switches for security options
+      document
+        .getElementById("two-factor")
+        .addEventListener("change", function () {
+          const statusMessage = document.createElement("div");
+          statusMessage.className = "message success";
+          statusMessage.style.marginTop = "15px";
+          statusMessage.textContent = this.checked
+            ? "Two-factor authentication has been enabled."
+            : "Two-factor authentication has been disabled.";
+
+          const parent = document.querySelector(".security-options");
+
+          // Remove any existing status message
+          const existingMessage = parent.querySelector(".message");
+          if (existingMessage) {
+            parent.removeChild(existingMessage);
+          }
+
+          parent.appendChild(statusMessage);
+
+          // Hide message after 3 seconds
+          setTimeout(() => {
+            statusMessage.style.opacity = "0";
+            statusMessage.style.transition = "opacity 0.5s";
+            setTimeout(() => {
+              parent.removeChild(statusMessage);
+            }, 500);
+          }, 3000);
+        });
+
+      document
+        .getElementById("email-notifications")
+        .addEventListener("change", function () {
+          const statusMessage = document.createElement("div");
+          statusMessage.className = "message success";
+          statusMessage.style.marginTop = "15px";
+          statusMessage.textContent = this.checked
+            ? "Email notifications have been enabled."
+            : "Email notifications have been disabled.";
+
+          const parent = document.querySelector(".security-options");
+
+          // Remove any existing status message
+          const existingMessage = parent.querySelector(".message");
+          if (existingMessage) {
+            parent.removeChild(existingMessage);
+          }
+
+          parent.appendChild(statusMessage);
+
+          // Hide message after 3 seconds
+          setTimeout(() => {
+            statusMessage.style.opacity = "0";
+            statusMessage.style.transition = "opacity 0.5s";
+            setTimeout(() => {
+              parent.removeChild(statusMessage);
+            }, 500);
+          }, 3000);
+        });
+
+      // Handle reading list filter
+      document
+        .getElementById("reading-filter")
+        .addEventListener("change", function () {
+          const filterValue = this.value;
+          const items = document.querySelectorAll(".reading-list-item");
+
+          if (filterValue === "all") {
+            items.forEach((item) => (item.style.display = "block"));
+            return;
+          }
+
+          items.forEach((item) => {
+            const status = item.getAttribute("data-status");
+            if (status === filterValue) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          });
+        });
+
+      // Add Book button
+      document
+        .querySelector(".add-book-btn")
+        .addEventListener("click", function () {
+          alert("Add Book functionality coming soon!");
+        });
+    </script>
   </body>
 </html>

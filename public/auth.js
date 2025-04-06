@@ -183,6 +183,13 @@ async function loadUserProfile() {
   if (!profileDataElement) return;
 
   try {
+    // Show loading spinner
+    profileDataElement.innerHTML = `
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i> Loading profile...
+      </div>
+    `;
+
     // Send request to get profile data
     const response = await fetch("/api/auth/profile", {
       method: "GET",
@@ -206,6 +213,16 @@ async function loadUserProfile() {
     document.getElementById("name").value = data.user.name || "";
     document.getElementById("email").value = data.user.email || "";
 
+    // Format dates
+    const createdDate = new Date(data.user.createdAt).toLocaleDateString();
+    const createdTime = new Date(data.user.createdAt).toLocaleTimeString();
+    const lastLoginDate = data.user.lastLogin
+      ? new Date(data.user.lastLogin).toLocaleDateString()
+      : "N/A";
+    const lastLoginTime = data.user.lastLogin
+      ? new Date(data.user.lastLogin).toLocaleTimeString()
+      : "";
+
     // Display profile data
     profileDataElement.innerHTML = `
       <div class="profile-data-item">
@@ -218,17 +235,25 @@ async function loadUserProfile() {
       </div>
       <div class="profile-data-item">
         <div class="profile-data-label">Account Created</div>
-        <div class="profile-data-value">${new Date(
-          data.user.createdAt
-        ).toLocaleDateString()}</div>
+        <div class="profile-data-value">
+          ${createdDate}
+          <span class="text-muted">${createdTime}</span>
+        </div>
       </div>
       <div class="profile-data-item">
         <div class="profile-data-label">Last Login</div>
-        <div class="profile-data-value">${
-          data.user.lastLogin
-            ? new Date(data.user.lastLogin).toLocaleString()
-            : "N/A"
-        }</div>
+        <div class="profile-data-value">
+          ${lastLoginDate}
+          ${
+            lastLoginTime
+              ? `<span class="text-muted">${lastLoginTime}</span>`
+              : ""
+          }
+        </div>
+      </div>
+      <div class="profile-data-item">
+        <div class="profile-data-label">Books Added</div>
+        <div class="profile-data-value">${data.user.booksCount || 0}</div>
       </div>
     `;
   } catch (error) {
@@ -326,60 +351,130 @@ async function handleChangePassword(event) {
   }
 }
 
-// Load user reading list
+// Load user's reading list
 async function loadReadingList() {
   const readingListElement = document.getElementById("reading-list");
   if (!readingListElement) return;
 
   try {
+    // Show loading spinner
+    readingListElement.innerHTML = `
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i> Loading reading list...
+      </div>
+    `;
+
     // Send request to get reading list
-    const response = await fetch("/api/user/reading-list", {
+    const response = await fetch("/api/books/reading-list", {
       method: "GET",
       credentials: "include",
     });
 
+    if (response.status === 401) {
+      // If not authenticated, handled by loadUserProfile redirect
+      return;
+    }
+
     const data = await response.json();
 
     if (!data.success) {
-      readingListElement.innerHTML = `<div class="error-message">${
-        data.message || "Failed to load reading list"
-      }</div>`;
+      readingListElement.innerHTML = `<div class="error-message">Failed to load reading list: ${data.message}</div>`;
       return;
     }
 
-    // Display reading list
-    if (data.readingList.length === 0) {
-      readingListElement.innerHTML = `<div class="empty-message">Your reading list is empty</div>`;
+    if (!data.books || data.books.length === 0) {
+      readingListElement.innerHTML = `
+        <div class="empty-message">
+          <i class="fas fa-book-open"></i>
+          <p>Your reading list is empty. Add books to start tracking your reading journey!</p>
+        </div>
+      `;
       return;
     }
 
-    let html = "";
-    data.readingList.forEach((book) => {
-      if (book.isPublic) {
-        html += `
-          <div class="reading-list-item">
-            <div class="reading-list-title">${book.title}</div>
-          </div>
-        `;
-      } else {
-        html += `
-          <div class="reading-list-item">
-            <div class="reading-list-title">${book.title}</div>
-            <div class="reading-list-author">${book.author}</div>
-            <div class="reading-list-meta">
-              <div>Added: ${new Date(book.addedAt).toLocaleDateString()}</div>
+    // Create HTML for books
+    let booksHTML = "";
+
+    data.books.forEach((book) => {
+      let statusBadge = "";
+      let statusClass = "";
+
+      switch (book.status) {
+        case "completed":
+          statusBadge =
+            '<span class="status-badge completed"><i class="fas fa-check-circle"></i> Completed</span>';
+          statusClass = "completed";
+          break;
+        case "reading":
+          statusBadge =
+            '<span class="status-badge reading"><i class="fas fa-book-reader"></i> Currently Reading</span>';
+          statusClass = "reading";
+          break;
+        case "wishlist":
+          statusBadge =
+            '<span class="status-badge wishlist"><i class="fas fa-clock"></i> Want to Read</span>';
+          statusClass = "wishlist";
+          break;
+      }
+
+      const addedDate = new Date(book.addedAt).toLocaleDateString();
+
+      booksHTML += `
+        <div class="reading-list-item" data-status="${
+          book.status || "wishlist"
+        }">
+          <div class="reading-list-title">${book.title}</div>
+          <div class="reading-list-author">by ${book.author}</div>
+          <div class="reading-list-info">
+            ${statusBadge}
+            <div class="book-progress">
               ${
-                book.completed
-                  ? '<div class="reading-list-completed">Completed</div>'
+                book.progress
+                  ? `<div class="progress-bar"><div style="width: ${book.progress}%"></div></div>`
+                  : ""
+              }
+              ${
+                book.progress
+                  ? `<span class="progress-text">${book.progress}% complete</span>`
                   : ""
               }
             </div>
           </div>
-        `;
-      }
+          <div class="reading-list-meta">
+            <span>Added: ${addedDate}</span>
+            <div class="reading-list-actions">
+              <button class="action-btn status-btn" title="Change status">
+                <i class="fas fa-exchange-alt"></i>
+              </button>
+              <button class="action-btn remove-btn" title="Remove from list">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
     });
 
-    readingListElement.innerHTML = html;
+    readingListElement.innerHTML = booksHTML;
+
+    // Add event listeners for action buttons
+    document.querySelectorAll(".status-btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        alert("Status change functionality coming soon!");
+      });
+    });
+
+    document.querySelectorAll(".remove-btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        if (
+          confirm(
+            "Are you sure you want to remove this book from your reading list?"
+          )
+        ) {
+          alert("Remove functionality coming soon!");
+        }
+      });
+    });
   } catch (error) {
     console.error("Load reading list error:", error);
     readingListElement.innerHTML = `<div class="error-message">An error occurred while loading your reading list.</div>`;
@@ -406,13 +501,16 @@ async function checkAuthStatus() {
 
 // Update header links based on authentication status
 function updateHeaderLinks(isLoggedIn) {
-  const headerAuthElement = document.querySelector('.header-auth');
+  const headerAuthElement = document.querySelector(".header-auth");
   if (!headerAuthElement) return;
-  
+
   if (isLoggedIn) {
     headerAuthElement.innerHTML = `
       <a href="/profile.html" class="profile-link">
-        <i class="fas fa-user"></i> My Profile
+        <i class="fas fa-user-circle"></i> My Profile
+      </a>
+      <a href="/" class="auth-link">
+        <i class="fas fa-book"></i> Recommendations
       </a>
     `;
   } else {

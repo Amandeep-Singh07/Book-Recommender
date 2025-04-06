@@ -12,11 +12,16 @@
     <script defer src="/auth.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container" data-theme="light">
       <header>
         <div class="header-content">
           <h1>Book Recommender</h1>
-          <p>Get personalized book recommendations powered by AI</p>
+          <div class="header-auth">
+            <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/login.html" class="nav-link"
+              ><i class="fas fa-sign-in-alt"></i> Login</a
+            >
+          </div>
           <button id="theme-toggle-btn" aria-label="Toggle dark mode">
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
@@ -24,54 +29,115 @@
         </div>
       </header>
 
-      <main class="auth-page">
-        <div class="auth-container">
-          <h2>Create an Account</h2>
-          <form id="register-form" class="auth-form">
-            <div class="input-group">
-              <label for="name">Your Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-
-            <div class="input-group">
-              <label for="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            <div class="input-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Choose a password"
-                required
-                minlength="8"
-              />
-              <div class="helper-text">
-                Password must be at least 8 characters long
+      <main class="auth-page modern-auth">
+        <div class="auth-layout">
+          <div class="auth-image">
+            <div class="auth-image-content">
+              <i class="fas fa-book-reader auth-icon"></i>
+              <h2>Join Our Community</h2>
+              <p>
+                Create an account to get personalized book recommendations
+                tailored to your reading preferences.
+              </p>
+              <div class="auth-features">
+                <div class="auth-feature">
+                  <i class="fas fa-book"></i>
+                  <span>Discover New Titles</span>
+                </div>
+                <div class="auth-feature">
+                  <i class="fas fa-heart"></i>
+                  <span>Save Favorites</span>
+                </div>
+                <div class="auth-feature">
+                  <i class="fas fa-comment"></i>
+                  <span>Share Your Reviews</span>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div id="register-error" class="error-message hidden"></div>
+          <div class="auth-container">
+            <div class="auth-header">
+              <h2>Create Your Account</h2>
+              <p>Join thousands of book lovers today</p>
+            </div>
 
-            <button type="submit" class="auth-button">Create Account</button>
-          </form>
+            <form id="register-form" class="auth-form">
+              <div class="input-group">
+                <label for="name">
+                  <i class="fas fa-user input-icon"></i>
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
 
-          <div class="auth-links">
-            <p>Already have an account? <a href="/login.html">Login</a></p>
+              <div class="input-group">
+                <label for="email">
+                  <i class="fas fa-envelope input-icon"></i>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="password">
+                  <i class="fas fa-lock input-icon"></i>
+                  Password
+                </label>
+                <div class="password-input-container">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Choose a password"
+                    required
+                    minlength="8"
+                  />
+                  <button type="button" class="toggle-password" tabindex="-1">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <div class="helper-text">
+                  <i class="fas fa-info-circle"></i> Password must be at least 8
+                  characters long
+                </div>
+              </div>
+
+              <div id="register-error" class="error-message hidden"></div>
+
+              <button type="submit" class="auth-button">
+                <i class="fas fa-user-plus"></i> Create Account
+              </button>
+            </form>
+
+            <div class="auth-separator">
+              <span>or</span>
+            </div>
+
+            <div class="social-auth">
+              <button type="button" class="social-auth-btn google">
+                <i class="fab fa-google"></i> Sign up with Google
+              </button>
+            </div>
+
+            <div class="auth-links">
+              <p>
+                Already have an account?
+                <a href="/login.html">Log In</a>
+              </p>
+            </div>
           </div>
         </div>
       </main>
@@ -99,5 +165,68 @@
         </div>
       </footer>
     </div>
+
+    <script>
+      // Toggle password visibility
+      document
+        .querySelector(".toggle-password")
+        .addEventListener("click", function () {
+          const passwordField = document.getElementById("password");
+          const type =
+            passwordField.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordField.setAttribute("type", type);
+
+          // Change icon based on password visibility
+          if (type === "text") {
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            this.setAttribute("title", "Hide password");
+          } else {
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+            this.setAttribute("title", "Show password");
+          }
+        });
+
+      // Form submission
+      document
+        .getElementById("register-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorContainer = document.getElementById("register-error");
+
+          try {
+            const response = await fetch("/api/auth/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name, email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              errorContainer.textContent =
+                data.message || "Registration failed. Please try again.";
+              errorContainer.classList.remove("hidden");
+              return;
+            }
+
+            // Successful registration
+            localStorage.setItem("token", data.token);
+            window.location.href = "/profile.html";
+          } catch (error) {
+            console.error("Registration error:", error);
+            errorContainer.textContent =
+              "An error occurred. Please try again later.";
+            errorContainer.classList.remove("hidden");
+          }
+        });
+    </script>
   </body>
 </html>

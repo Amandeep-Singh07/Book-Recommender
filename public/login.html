@@ -17,6 +17,10 @@
         <div class="header-content">
           <h1>Book Recommender</h1>
           <p>Get personalized book recommendations powered by AI</p>
+          <div class="header-auth">
+            <a href="/" class="auth-link"> <i class="fas fa-home"></i> Home </a>
+            <a href="/register.html" class="auth-link register">Register</a>
+          </div>
           <button id="theme-toggle-btn" aria-label="Toggle dark mode">
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
@@ -24,39 +28,106 @@
         </div>
       </header>
 
-      <main class="auth-page">
-        <div class="auth-container">
-          <h2>Login</h2>
-          <form id="login-form" class="auth-form">
-            <div class="input-group">
-              <label for="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-              />
+      <main class="auth-page modern-auth">
+        <div class="auth-layout">
+          <div class="auth-image">
+            <div class="auth-image-content">
+              <i class="fas fa-book-reader auth-icon"></i>
+              <h2>Welcome Back!</h2>
+              <p>
+                Log in to discover your next favorite book with our AI-powered
+                recommendation engine.
+              </p>
+              <div class="auth-features">
+                <div class="auth-feature">
+                  <i class="fas fa-brain"></i>
+                  <span>AI-Powered Suggestions</span>
+                </div>
+                <div class="auth-feature">
+                  <i class="fas fa-bookmark"></i>
+                  <span>Personal Reading Lists</span>
+                </div>
+                <div class="auth-feature">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Customized Experience</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-container">
+            <div class="auth-header">
+              <h2>Login to Your Account</h2>
+              <p>Please enter your credentials to continue</p>
             </div>
 
-            <div class="input-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-              />
+            <form id="login-form" class="auth-form">
+              <div class="input-group">
+                <label for="email">
+                  <i class="fas fa-envelope input-icon"></i>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="password">
+                  <i class="fas fa-lock input-icon"></i>
+                  Password
+                </label>
+                <div class="password-input-container">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                  />
+                  <button type="button" class="toggle-password" tabindex="-1">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="auth-options">
+                <div class="remember-me">
+                  <input type="checkbox" id="remember" name="remember" />
+                  <label for="remember">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+              </div>
+
+              <div id="login-error" class="error-message hidden"></div>
+
+              <button type="submit" class="auth-button">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </button>
+            </form>
+
+            <div class="auth-separator">
+              <span>or</span>
             </div>
 
-            <div id="login-error" class="error-message hidden"></div>
+            <div class="social-auth">
+              <button type="button" class="social-auth-btn google">
+                <i class="fab fa-google"></i> Continue with Google
+              </button>
+            </div>
 
-            <button type="submit" class="auth-button">Login</button>
-          </form>
-
-          <div class="auth-links">
-            <p>Don't have an account? <a href="/register.html">Register</a></p>
+            <div class="auth-links">
+              <p>
+                Don't have an account?
+                <a href="/register.html">Create Account</a>
+              </p>
+            </div>
           </div>
         </div>
       </main>
@@ -84,5 +155,67 @@
         </div>
       </footer>
     </div>
+
+    <script>
+      // Toggle password visibility
+      document
+        .querySelector(".toggle-password")
+        .addEventListener("click", function () {
+          const passwordField = document.getElementById("password");
+          const type =
+            passwordField.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordField.setAttribute("type", type);
+
+          // Change icon based on password visibility
+          if (type === "text") {
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            this.setAttribute("title", "Hide password");
+          } else {
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+            this.setAttribute("title", "Show password");
+          }
+        });
+
+      // Form submission
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorContainer = document.getElementById("login-error");
+
+          try {
+            const response = await fetch("/api/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              errorContainer.textContent =
+                data.message || "Login failed. Please check your credentials.";
+              errorContainer.classList.remove("hidden");
+              return;
+            }
+
+            // Successful login
+            localStorage.setItem("token", data.token);
+            window.location.href = "/profile.html";
+          } catch (error) {
+            console.error("Login error:", error);
+            errorContainer.textContent =
+              "An error occurred. Please try again later.";
+            errorContainer.classList.remove("hidden");
+          }
+        });
+    </script>
   </body>
 </html>
