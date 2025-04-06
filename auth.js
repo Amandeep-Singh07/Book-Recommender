@@ -19,10 +19,8 @@ async function connectToMongoDB() {
       throw new Error("MONGODB_URI environment variable is not set");
     }
 
-    // MongoDB connection options
+    // MongoDB connection options with only the non-deprecated options
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       connectTimeoutMS: 30000,
       socketTimeoutMS: 45000,
     };
